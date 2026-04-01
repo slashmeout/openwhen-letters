@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>April Fools Glitch</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: black;
+    height: 100%;
+    width: 100%;
+    font-family: monospace;
+    color: #00ff00;
+  }
+
+  .glitch-text {
+    position: absolute;
+    font-size: 3rem;
+    font-weight: bold;
+    white-space: nowrap;
+    animation: glitchMove 0.1s infinite;
+  }
+
+  @keyframes glitchMove {
+    0%   { transform: translate(0,0) rotate(0deg); opacity:1;}
+    20%  { transform: translate(-5px,3px) rotate(-2deg); opacity:0.8;}
+    40%  { transform: translate(3px,-2px) rotate(1deg); opacity:1;}
+    60%  { transform: translate(-2px,2px) rotate(2deg); opacity:0.9;}
+    80%  { transform: translate(2px,-3px) rotate(-1deg); opacity:1;}
+    100% { transform: translate(0,0) rotate(0deg); opacity:1;}
+  }
+
+  /* Optional: duplicate for color flicker */
+  .glitch-text::before,
+  .glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+  }
+  .glitch-text::before { color: #ff00ff; clip: rect(0,900px,0,0); animation: glitchTop 2s infinite linear alternate-reverse;}
+  .glitch-text::after  { color: #00ffff; clip: rect(0,900px,0,0); animation: glitchBottom 2s infinite linear alternate-reverse;}
+
+  @keyframes glitchTop {
+    0% {clip: rect(0, 9999px, 0, 0);}
+    10% {clip: rect(10px, 9999px, 50px, 0);}
+    20% {clip: rect(30px, 9999px, 80px, 0);}
+    30% {clip: rect(50px, 9999px, 90px, 0);}
+    40% {clip: rect(20px, 9999px, 70px, 0);}
+    50% {clip: rect(0px, 9999px, 30px, 0);}
+    60% {clip: rect(10px, 9999px, 50px, 0);}
+    70% {clip: rect(30px, 9999px, 80px, 0);}
+    80% {clip: rect(0px, 9999px, 50px, 0);}
+    90% {clip: rect(20px, 9999px, 70px, 0);}
+    100% {clip: rect(0, 9999px, 0, 0);}
+  }
+
+  @keyframes glitchBottom {
+    0% {clip: rect(0, 9999px, 0, 0);}
+    10% {clip: rect(40px, 9999px, 90px, 0);}
+    20% {clip: rect(20px, 9999px, 50px, 0);}
+    30% {clip: rect(50px, 9999px, 100px, 0);}
+    40% {clip: rect(0px, 9999px, 30px, 0);}
+    50% {clip: rect(30px, 9999px, 60px, 0);}
+    60% {clip: rect(10px, 9999px, 40px, 0);}
+    70% {clip: rect(20px, 9999px, 70px, 0);}
+    80% {clip: rect(40px, 9999px, 90px, 0);}
+    90% {clip: rect(10px, 9999px, 50px, 0);}
+    100% {clip: rect(0, 9999px, 0, 0);}
+  }
+</style>
+</head>
+<body>
+
+<audio id="prankSound" autoplay>
+  <source src="https://www.soundjay.com/misc/sounds/bell-ringing-01.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const texts = ["APRIL FOOLS!", "HAHAHAHA", "GLITCH!", "YOUR PHONE IS HACKED!"];
+  const body = document.body;
+
+  function createGlitchText() {
+    const textDiv = document.createElement("div");
+    textDiv.className = "glitch-text";
+    textDiv.dataset.text = texts[Math.floor(Math.random() * texts.length)];
+    textDiv.style.top = Math.random() * window.innerHeight + "px";
+    textDiv.style.left = Math.random() * window.innerWidth + "px";
+    textDiv.style.fontSize = (20 + Math.random()*50) + "px";
+    body.appendChild(textDiv);
+
+    // remove after a while to avoid too much clutter
+    setTimeout(() => body.removeChild(textDiv), 3000);
+  }
+
+  setInterval(createGlitchText, 100); // create 10 texts per second
+</script>
+
+</body>
+  </html>
